@@ -1,0 +1,19 @@
+<div class="post">
+    <a href="{% url 'post' post.community.slug post.pk %}">
+        <div class="post-head">
+            <img src="{{ post.community.icon.url }}" alt="icon" width="30" height="30" class="square-img">
+            <h3>{{ post.community.name }}</h3>
+            <p>{{ post.created_at }}</p>
+        </div>
+    </a>
+    <div class="post-title">
+        <h1>{{ post.title }}</h1>
+    </div>
+    <div class="post-body">
+        {% if post.image %}
+            <img class="post-img" src="{{ post.image.url }}" alt="post img" width="200px">
+        {% else %}
+            <p>{{ post.content|striptags }}</p>
+        {% endif %}
+    </div>
+</div>

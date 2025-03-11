@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кастомний details</title>
+    <style>
+        .custom-details {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            width: 300px;
+        }
+
+        .custom-summary {
+            cursor: pointer;
+            font-weight: bold;
+            padding: 5px;
+            background: #f1f1f1;
+            border-radius: 3px;
+        }
+
+        .custom-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+
+        .custom-details.open .custom-content {
+            max-height: 500px; /* Достатньо велике значення */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="custom-details">
+    <div class="custom-summary">🔽 Нещодавні</div>
+    <div class="custom-content">
+        <p>Елемент 1</p>
+        <p>Елемент 2</p>
+        <p>Елемент 3</p>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.custom-details').forEach(details => {
+        const summary = details.querySelector('.custom-summary');
+        const content = details.querySelector('.custom-content');
+
+        summary.addEventListener('click', () => {
+            const isOpen = details.classList.contains('open');
+            
+            if (isOpen) {
+                content.style.maxHeight = content.scrollHeight + 'px'; // Встановлюємо поточну висоту
+                setTimeout(() => content.style.maxHeight = '0', 10);
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+
+            details.classList.toggle('open');
+        });
+    });
+</script>
+
+</body>
+</html>

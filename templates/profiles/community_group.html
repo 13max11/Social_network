@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}{{group.name}}{% endblock %}
+
+
+{% block content %}
+    <h1>Группа ком'юніті {{group.name}}</h1>
+    
+    
+    {% for post in posts %}
+        
+        {% include 'post.html' %}
+    
+    {% endfor %}
+    
+
+{% endblock %}

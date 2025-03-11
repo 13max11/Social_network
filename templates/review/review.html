@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}цент відгуків{% endblock %}
+
+
+{% block content %}
+
+    <h1>Цент відгуків</h1>
+
+    <div class="reviews">
+        <div class="left-review-side">
+            {% if request.user.is_staff %}
+                <button>Переглянути відгуки користувачів</button>
+            {% endif %}
+            {% for review in reviews %}
+                <p>{{review.content}}  {{review.get_status_display}}</p>
+            {% endfor %}
+        </div>
+
+        <div class="right-review-side">
+            <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit">Додати відгук</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

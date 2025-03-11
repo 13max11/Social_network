@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Пошук ком'юніті{% endblock %}
+
+
+{% block content %}
+
+    <h1>Випадкові</h1>
+
+    {% for community in random_communitys %}
+        <a href="{%url 'community' community.slug %}"><h2>{{community.name}}</h2></a>
+    {% endfor %}
+
+    <h1>За активністю</h1>
+
+    {% for community in communitys_by_posts %}
+        <h2>{{community.name}}</h2>
+    {% endfor %}
+
+    <h1>За учасниками</h1>
+
+    {% for community in communitys_by_followers %}
+        <h2>{{community.name}}</h2>
+    {% endfor %}
+
+{% endblock %}

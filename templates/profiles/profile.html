@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}{{user.username}}{% endblock %}
+
+{% block content %}
+
+    
+
+    {% for action in actions %}
+      
+        {% if action|class_name == "Post" %}
+            <div class="post">
+                <a href="{% url 'post' action.community.slug action.pk %}" ><div class="post-head">
+                    <img src="{{action.community.icon.url}}" alt="icon" width="30" height="30" class="square-img">
+                    <h3>{{action.community.name}}</h3>
+                    <p>{{action.created_at}}</p>
+                </div></a>
+                <div class="post-title">
+                    <h1>{{action.title}}</h1>
+                </div>
+                <div class="post-body">
+                    {% if action.image %}
+        
+                        <img class="post-img" src="{{action.image.url}}" alt="post img" width="200px">
+                    
+                    {% else %}
+        
+                        <p>{{action.content|striptags}}</p>
+                    
+                    {% endif %}
+                </div>
+            </div>
+        {% elif action|class_name == "Comment" %}
+            <div class="post">
+                <strong>Коментар:</strong> {{ action.text }}<br>
+                <em>До поста: "{{ action.post.title }}"</em><br>
+                <em>Дата: {{ action.created_at }}</em>
+            </div>  
+        {% endif %}
+      
+    {% empty %}
+      <p>Немає активності</p>
+    {% endfor %}
+
+{% endblock %}

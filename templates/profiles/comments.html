@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}{{user.username}} - коментарі{% endblock %}
+
+{% block content %}
+
+    {% for comment in comments %}
+            <div class="post">
+                <strong>Коментар:</strong> {{ comment.text }}<br>
+                <em>До поста: "{{ comment.post.title }}"</em><br>
+                <em>Дата: {{ comment.created_at }}</em>
+            </div>
+    {% empty %}
+      <p>Немає активності</p>
+    {% endfor %}
+
+{% endblock %}

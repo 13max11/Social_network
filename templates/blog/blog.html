@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}блог{% endblock %}
+
+
+{% block content %}
+
+    {% for entry in entries %}
+
+        <h1>{{ entry.title }}</h1>
+        <h2>{{ entry.content }}</h2>
+
+    {% empty %}
+
+        <h1>на сайті немає жодних дописів</h1>
+
+    {% endfor %}
+
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}{{community.name}}{% endblock %}
+
+
+{% block content %}
+
+    <h1>{{community.name}}</h1>
+    <h3>{{followers}} учасників</h3>
+    <p>{{community.description}}</p>
+
+    {% if rules %}
+        <h3>Правила ком'юніті</h3>
+        {% for rule in rules %}
+        <details>
+            <summary>{{rule.title}}</summary>
+            <p>{{rule.description}}</p>
+        </details>
+        {% endfor %}
+    {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <button type="submit" name="join">
+            {% if joined %} відєднатись {% else %} приєднатись {% endif %}
+        </button>
+    </form>
+
+    {% for post in posts %}
+        
+        {% include 'post.html' %}
+            
+    {% endfor %}
+
+{% endblock %}

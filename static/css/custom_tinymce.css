@@ -1,0 +1,36 @@
+body {
+    background-color: #1e1e1e;  /* Темний фон */
+    color: #ffffff;  /* Білий текст */
+    font-family: Arial, sans-serif;
+}
+
+/* Стиль заголовків */
+h1, h2, h3 {
+    color: #ffcc00;
+}
+
+/* Стиль посилань */
+a {
+    color: #66ccff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Вирівнювання зображень */
+img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+/* Списки */
+ul {
+    list-style-type: square;
+}
+
+ol {
+    list-style-type: decimal;
+}

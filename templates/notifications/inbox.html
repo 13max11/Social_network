@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}ваші повідомлення{% endblock %}
+
+
+{% block content %}
+
+    <form method="get" id="sortForm" style="margin-bottom: 6px;">
+        {{ sort_form.sort_by }}
+    </form>
+
+    {% for notification in notifications %}
+        <p><a href="{{notification.url}}">{{notification.message}}</a></p>
+    {% empty %}
+        немоє нових сповіщень
+    {% endfor %}
+
+    <script>
+        document.querySelector('[name="sort_by"]').addEventListener('change', function() {
+            document.getElementById('sortForm').submit();
+        });
+    </script>
+
+{% endblock %}

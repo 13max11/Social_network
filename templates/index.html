@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}site{% endblock %}
+
+
+{% block content %}
+<!-- 
+    {% for community in communitys %}
+        <a href="{% url 'community' community.slug %}" ><h1>{{community.name}}</h1></a>
+        <img src="{{community.icon.url}}" alt="community icon" width="50px" height="50px" class="square-img">
+        <p>{{community.description}}</p>
+    {% endfor %} -->
+
+    {% for post in posts %}
+
+        {% include 'post.html' %}
+
+    {% endfor %}
+{% endblock %}

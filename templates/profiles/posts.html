@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load custom_filters %}
+
+{% block title %}{{user.username}} - пости{% endblock %}
+
+{% block content %}
+
+    
+
+    {% for post in posts %}
+        {% include 'post.html' %}
+    {% empty %}
+      <p>Немає активності</p>
+    {% endfor %}
+
+{% endblock %}

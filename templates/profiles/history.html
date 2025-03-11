@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}історія перегляду{% endblock %}
+
+{% block content %}
+
+    {% for item in history %}
+
+        <p><a href="{% url 'post' item.post.community.slug item.post.pk %}">{{item.post.title}}</a></p>
+
+    {% empty %}
+
+        <p>немає історії перегляду</p>
+
+    {% endfor %}
+
+{% endblock %}

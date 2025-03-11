@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}сторінка{% endblock %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Мій сайт</h1>
+
+            <!-- Поле пошуку -->
+        <input type="text" id="search" class="search" placeholder="Пошук спільнот...">
+
+        <!-- Результати пошуку -->
+        
+        <div id="search-results" class="search-results"></div>
+
+        <div class="right-group-header">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'post-create' %}"><img src="\static\images\add.png" alt="create"></a> 
+                <a href="{% url 'notifications' %}"><img src="\static\images\envelope.png" alt="notifications"></a>
+                <a href="{% url 'my_profile' %}"><img src="{{request.user.avatar.url}}" alt="avatar" width="30" height="30" class="square-img"></a>
+            {% else %} 
+                <a href="{% url 'login' %}">увійти</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="sidebar custom-scroll">
+        <h2>Меню</h2>
+            <div class="sidebar-button {% if request.resolver_match.view_name == 'index' %} pressed {% endif %}"><a href="{% url 'index' %}"><img src="\static\images\house-chimney_9246364.png" width="30px" alt="house"><span>Головна</span></a></div>
+            <div class="sidebar-button {% if request.resolver_match.view_name == 'explore' %} pressed {% endif %}"><a href="{% url 'explore' %}"><img src="\static\images\compass-alt_16675655.png" alt="compass" width="30px"><span>Ком'юніті</span></a></div>
+        <hr>
+
+        <div class="custom-details">
+            <div class="custom-summary"><span class="arrow">▲</span>Группи ком'юніті</div>
+            <div class="custom-details-content">
+            {% for community_group in community_groups %}
+                    <div class="sidebar-button"><a href="{% url 'community_group' community_group.creator.username community_group.slug  %}"><img src="{{community_group.icon.url}}" alt="icon" width="30px" height="30px" class="square-img"><span>{{community_group.name}}</span></a></div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="custom-details">
+            <div class="custom-summary"><span class="arrow">▲</span> Нещодавні</div>
+            <div class="custom-details-content">
+            {% for view in recent_communitys %}
+                    <div class="sidebar-button"><a href="{% url 'community' view.community.slug %}"><img src="{{view.community.icon.url}}" alt="icon" width="30px" height="30px" class="square-img"><span>{{view.community.name}}</span></a></div>
+            {% endfor %}
+            </div>
+        </div>
+            
+        <hr>
+        <div class="custom-details">
+            <div class="custom-summary"><span class="arrow">▲</span>Відстежувані</div>
+            <div class="custom-details-content">
+        
+            {% for community in followed_communitys %}
+                <div class="sidebar-button"><a href="{% url 'community' community.slug %}"><img src="{{community.icon.url}}" alt="icon" width="30px" height="30px" class="square-img"><span>{{community.name}}</span></a></div>
+            {% endfor %}
+            </div>
+        </div>
+
+        <hr>
+            <div class="sidebar-button {% if request.resolver_match.view_name == 'rules' %} pressed {% endif %}" id="rules"><a href="{% url 'rules' %}#rules"><img src="\static\images\document.png" width="30px" alt="document"><span>правила сайту</span></a></div>
+            <div class="sidebar-button {% if request.resolver_match.view_name == 'blog' %} pressed {% endif %}" id="blog"><a href="{% url 'blog' %}#blog"><img src="\static\images\blog.png" width="30px" alt="blog"><span>блог</span></a></div>
+            <div class="sidebar-button {% if request.resolver_match.view_name == 'alert' %} pressed {% endif %}" id="alert"><a href="{% url 'alert' %}#alert"><img src="\static\images\alert.png" width="30px" alt="alert"><span>відгук</span></a></div>
+
+    </div>
+
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    <script>
+            document.querySelectorAll('.custom-details').forEach((details, index) => {
+            const storageKey = `customDetails_${index}`;  // Використовуємо індекс як унікальний ключ
+
+            const summary = details.querySelector('.custom-summary');
+            const content = details.querySelector('.custom-details-content');
+
+            // Якщо стан збережено в localStorage, відновлюємо його
+            if (localStorage.getItem(storageKey) === "open") {
+                details.classList.add('open');
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+
+            summary.addEventListener('click', () => {
+                const isOpen = details.classList.contains('open');
+
+                if (isOpen) {
+                    // Закриваємо блок
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    setTimeout(() => content.style.maxHeight = '0', 10);
+                    localStorage.removeItem(storageKey); // Видаляємо збережений стан
+                } else {
+                    // Відкриваємо блок
+                    content.style.maxHeight = content.scrollHeight + 'px';
+                    localStorage.setItem(storageKey, "open"); // Зберігаємо стан
+                }
+
+                details.classList.toggle('open');
+            });
+        });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("search");
+            const resultsDiv = document.getElementById("search-results");
+
+            searchInput.addEventListener("keyup", function () {
+                let query = searchInput.value.trim();
+                if (query.length > 0) {
+                    fetch(`/?q=${query}`, { headers: { "X-Requested-With": "XMLHttpRequest" } })
+                        .then(response => response.json())
+                        .then(data => {
+                            resultsDiv.innerHTML = "";
+                            if (data.communities.length > 0) {
+                                resultsDiv.classList.add("active");
+                                data.communities.forEach(community => {
+                                    let div = document.createElement("div");
+                                    div.innerHTML = `<a href='/${community.slug}'><strong>${community.name}</strong></a>`;
+                                    resultsDiv.appendChild(div);
+                                });
+                            } else {
+                                resultsDiv.classList.remove("active");
+                            }
+                        });
+                } else {
+                    resultsDiv.classList.remove("active");
+                }
+            });
+
+            // Закриття випадаючого списку при кліку поза ним
+            document.addEventListener("click", function (event) {
+                if (!searchInput.contains(event.target) && !resultsDiv.contains(event.target)) {
+                    resultsDiv.classList.remove("active");
+                }
+            });
+        });
+
+        
+
+    </script>    
+    
+</body>
+</html>
