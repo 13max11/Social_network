@@ -5,14 +5,18 @@
 
 {% block content %}
 
-    <form method="get" id="sortForm" style="margin-bottom: 6px;">
-        {{ sort_form.sort_by }}
-    </form>
+    <div class="notifications-top">
+        <form method="get" id="sortForm" style="margin-bottom: 6px;">
+            {{ sort_form.sort_by }}
+        </form>
+        
+        <a href="{% url 'mark_all_as_read' %}" style="margin-left: 60vw;"><button>помітити все прочитаним</button></a>
+    </div>
 
     {% for notification in notifications %}
-        <p><a href="{{notification.url}}">{{notification.message}}</a></p>
+        <p class="notification"><a href="{% url 'mark_as_read' notification.id %}" style="width: 98%;">{{notification.message}}</a> <span>{% if not notification.is_read %}●{% endif %}</span></p>
     {% empty %}
-        немоє нових сповіщень
+        <p class="no-notifications">Немає нових сповіщень</p>
     {% endfor %}
 
     <script>

@@ -5,13 +5,24 @@
 
 {% block content %}
 
-<h1>Створення топіку</h1>
+    <h1>Створення топіку</h1>
 
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.media }}
-    {{ form.as_p }}
-    <button type="submit">Створити</button>
-</form>
+    <form method="post" enctype="multipart/form-data" class="login-form">
+        {% csrf_token %}
+        {{ form.media }}
+
+        <label for="{{ form.community.id_for_label }}">Оберіть спільноту:</label>
+        {{ form.community }}
+
+        <input type="text" name="{{ form.title.name }}" placeholder="Назва топіку" value="{{ form.title.value|default:'' }}">
+
+        {{ form.content }}
+
+        {{ form.image.label }}
+        {{ form.image }}
+        
+
+        <button type="submit">Створити</button>
+    </form>
 
 {% endblock %}

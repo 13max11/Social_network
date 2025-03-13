@@ -4,8 +4,8 @@
 
 {% block content %}
 
-<h2>Реєстрація</h2>
-<form method="post">
+<h2 style="text-align: center; margin-top: 25px;">Реєстрація</h2>
+<form method="post" class="login-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Реєстрація</button>

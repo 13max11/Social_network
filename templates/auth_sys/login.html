@@ -5,8 +5,8 @@
 
 {% block content %}
 
-<h2>Вхід в акаунт</h2>
-<form method="post">
+<h2 style="text-align: center; margin-top: 25px;">Вхід в акаунт</h2>
+<form method="post" class="login-form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Вхід</button>
