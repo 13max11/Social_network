@@ -5,9 +5,9 @@
 {% block content %}
 
     {% for item in history %}
-
-        <p><a href="{% url 'post' item.post.community.slug item.post.pk %}">{{item.post.title}}</a></p>
-
+    {% with post=item.post %}
+        {% include 'post.html' %}
+    {% endwith %}
     {% empty %}
 
         <p>немає історії перегляду</p>

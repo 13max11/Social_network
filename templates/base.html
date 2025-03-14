@@ -39,6 +39,7 @@
         <div class="custom-details">
             <div class="custom-summary"><span class="arrow">▲</span>Группи ком'юніті</div>
             <div class="custom-details-content">
+            <div class="sidebar-button"><a href="{% url 'community-group-create' %}"><img src="\static\images\add.png" alt="icon" width="30px" height="30px" class="square-img"><span>Створити группу ком'юніті</span></a></div>
             {% for community_group in community_groups %}
                     <div class="sidebar-button"><a href="{% url 'community_group' community_group.creator.username community_group.slug  %}"><img src="{{community_group.icon.url}}" alt="icon" width="30px" height="30px" class="square-img"><span>{{community_group.name}}</span></a></div>
             {% endfor %}
@@ -60,7 +61,7 @@
         <div class="custom-details">
             <div class="custom-summary"><span class="arrow">▲</span>Відстежувані</div>
             <div class="custom-details-content">
-        
+            <div class="sidebar-button"><a href="{% url 'community-create' %}"><img src="\static\images\add.png" alt="icon" width="30px" height="30px" class="square-img"><span>Створити ком'юніті</span></a></div>
             {% for community in followed_communitys %}
                 <div class="sidebar-button"><a href="{% url 'community' community.slug %}"><img src="{{community.icon.url}}" alt="icon" width="30px" height="30px" class="square-img"><span>{{community.name}}</span></a></div>
             {% endfor %}

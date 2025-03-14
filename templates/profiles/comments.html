@@ -5,6 +5,8 @@
 
 {% block content %}
 
+    {% include 'profile_base.html' %}
+
     {% for comment in comments %}
             <div class="post">
                 <strong>Коментар:</strong> {{ comment.text }}<br>

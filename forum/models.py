@@ -9,6 +9,7 @@ from tinymce.models import HTMLField
 class Community(models.Model):
     name = models.CharField(max_length=32, unique=True)
     icon = models.ImageField(upload_to='images/forum_icons/', default='images/forum_icons/default.jpg')
+    background_image = models.ImageField(upload_to='images/forum_icons/', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -72,9 +73,13 @@ class Post(models.Model):
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now=True)
     community = models.ForeignKey(Community, on_delete=models.CASCADE, related_name='post')
+    deleted = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.title
+
+    class Meta:
+        ordering = ['-created_at']
 
 # class Repost(models.Model):
 #     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='reposts')

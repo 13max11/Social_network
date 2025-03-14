@@ -1,0 +1,13 @@
+<div class="profile-base">
+    <img src="{{user.avatar.url}}" alt="avatar" width="50" height="50" class="square-img">
+    <div>
+        {% if user.first_name %} <h2>{{user.first_name}}</h2> {% else %} <h2 style="margin-bottom: 0;">{{user.username}}</h2> {% endif %}
+        <p>{{user.username}}</p>
+    </div>
+    <div class="profile-buttons">
+        <a href="{% url 'profile' user.username %}"><button>Дії</button></a>
+        <a href="{% url 'profile-posts' user.username %}"><button>Пости</button></a>
+        <a href="{% url 'profile-commented' user.username %}"><button>Коментарі</button></a>
+        <a href="{% url 'history' %}"><button>Історія</button></a>
+    </div>
+</div>

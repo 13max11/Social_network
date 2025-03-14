@@ -6,21 +6,22 @@
 {% block content %}
 
     <h1>Випадкові</h1>
-
-    {% for community in random_communitys %}
-        <a href="{%url 'community' community.slug %}"><h2>{{community.name}}</h2></a>
-    {% endfor %}
+    <div class="explore-communities-container">
+        {% for community in random_communities %}
+            <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
+        {% endfor %}
+    </div>
 
     <h1>За активністю</h1>
 
-    {% for community in communitys_by_posts %}
-        <h2>{{community.name}}</h2>
+    {% for community in communities_by_posts %}
+        <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
     {% endfor %}
 
     <h1>За учасниками</h1>
 
-    {% for community in communitys_by_followers %}
-        <h2>{{community.name}}</h2>
+    {% for community in communities_by_followers %}
+        <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
     {% endfor %}
 
 {% endblock %}

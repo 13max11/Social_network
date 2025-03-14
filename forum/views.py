@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Community, Community_folow, Community_rule, CommunityGroup , Post, Comment, Like, DisLike, PostView, CommunityView
-from .forms import PostCreationForm, CommunityCreationForm
+from .forms import PostCreationForm, CommunityCreationForm, CommunityGroupCreationForm
 from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import JsonResponse
@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
-    posts = Post.objects.all()
+    posts = Post.objects.filter(deleted=False).order_by('-created_at')
     communitys = Community.objects.all()
 
     if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
@@ -31,7 +31,7 @@ def index(request):
 def community_details_view(request, slug):
     community = get_object_or_404(Community, slug=slug)
     rules = Community_rule.objects.filter(community=community)
-    posts = Post.objects.filter(community=community)
+    posts = Post.objects.filter(community=community, deleted=False).order_by('-created_at')
     followers = community.community_follow.count()
     joined = None
     if request.user.is_authenticated:
@@ -159,22 +159,31 @@ def community_create(request):
 def explore(request):
     week_ago = now() - timedelta(days=7)
 
-    random_communitys = Community.objects.all().order_by('?')
-
-    # Сортування за кількістю підписників
-    communitys_by_followers = Community.objects.annotate(
+    random_communities = Community.objects.order_by('?')[:6]
+    communities_by_followers = Community.objects.annotate(
         followers_count=Count('community_follow')
-    ).order_by('-followers_count')
-
-    # Сортування за кількістю постів за останній тиждень
-    communitys_by_posts = Community.objects.annotate(
+    ).order_by('-followers_count')[:6]
+    communities_by_posts = Community.objects.annotate(
         weekly_posts=Count('post', filter=Q(post__created_at__gte=week_ago))
-    ).order_by('-weekly_posts')
+    ).order_by('-weekly_posts')[:6]
 
     context = {
-        'random_communitys':random_communitys,
-        'communitys_by_followers': communitys_by_followers,
-        'communitys_by_posts': communitys_by_posts,
+        'random_communities':random_communities,
+        'communities_by_followers': communities_by_followers,
+        'communities_by_posts': communities_by_posts,
     }
 
     return render(request, 'forum/explore.html', context)
+@login_required
+def community_group_create(request):
+    if request.method == 'POST':
+        form = CommunityGroupCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            community_group = form.save(commit=False)
+            community_group.creator = request.user
+            community_group.save()
+            return redirect('community_group', community_group.creator.username, community_group.slug)
+    else:
+        form = CommunityGroupCreationForm()
+
+    return render(request, 'forum/create_community_group.html', {'form': form})

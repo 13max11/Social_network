@@ -9,7 +9,6 @@ from django.urls import reverse
 def notify_subscribers(sender, instance, created, **kwargs):
     if created:
         post = instance.post
-        print(instance.pk)
 
         Notification.objects.create(
             user=post.created_by,

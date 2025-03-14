@@ -5,9 +5,25 @@
 
 {% block content %}
 
-    <h1>{{community.name}}</h1>
-    <h3>{{followers}} учасників</h3>
-    <p>{{community.description}}</p>
+    <div class="community-header">
+        {% if community.background_image %}
+            <img src="{{community.background_image.url}}" alt="background image" class="background-image square-img">
+        {% endif %}
+        <div class="community-icon-name" style="display: flex;">
+            {% if community.background_image %}<img src="{{community.icon.url}}" alt="community icon" width="70px" height="70px" class="community-icon square-img">{% else %}<img src="{{community.icon.url}}" alt="community icon" width="70px" height="70px" class="square-img"> {% endif %}
+            <h1 style="margin-top: 5px; margin-left: 10px;">{{community.name}}</h1>
+            
+            <form action="" method="post" style="margin-left: auto;">
+                {% csrf_token %}
+                <button type="submit" name="join">
+                    {% if joined %} відєднатись {% else %} приєднатись {% endif %}
+                </button>
+            </form>
+        </div>
+        <h3>{{followers}} учасників</h3>
+        <p>{{community.description}}</p>
+    </div>
+    
 
     {% if rules %}
         <h3>Правила ком'юніті</h3>
@@ -18,13 +34,6 @@
         </details>
         {% endfor %}
     {% endif %}
-
-    <form action="" method="post">
-        {% csrf_token %}
-        <button type="submit" name="join">
-            {% if joined %} відєднатись {% else %} приєднатись {% endif %}
-        </button>
-    </form>
 
     {% for post in posts %}
         

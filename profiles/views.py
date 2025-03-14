@@ -78,7 +78,7 @@ def community_group(request, username, slug):
     # group = CommunityGroup.objects.filter(creator__username=username, slug=slug)
     group = get_object_or_404(CommunityGroup, slug=slug)
     communities = Community.objects.filter(group_item__group=group)
-    posts = Post.objects.filter(community__in=communities).order_by('-created_at')
+    posts = Post.objects.filter(community__in=communities, deleted=False).order_by('-created_at')
 
     context = {
         'group': group,

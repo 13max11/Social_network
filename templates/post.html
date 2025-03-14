@@ -1,19 +1,33 @@
-<div class="post">
-    <a href="{% url 'post' post.community.slug post.pk %}">
+<div class="post" id="{{post.id}}">
+    {% if not post.deleted %}
+    <a href="{% url 'community' post.community.slug %}">
         <div class="post-head">
             <img src="{{ post.community.icon.url }}" alt="icon" width="30" height="30" class="square-img">
-            <h3>{{ post.community.name }}</h3>
-            <p>{{ post.created_at }}</p>
+            <p>{{ post.community.name }}</p>
+            <p>●</p>
+            <p>{{ post.created_at|timesince }}</p>
         </div>
     </a>
-    <div class="post-title">
-        <h1>{{ post.title }}</h1>
+    <a href="{% url 'post' post.community.slug post.pk %}">
+        <div class="post-title">
+            <h1>{{ post.title }}</h1>
+        </div>
+        <div class="post-body">
+            {% if post.image %}
+                <img class="post-img" src="{{ post.image.url }}" alt="post img" width="200px">
+            {% else %}
+                <p>{{ post.content|striptags }}</p>
+            {% endif %}
+        </div>
+    </a>
+    <div class="post-bottom">
+        <button>подобається</button>
+        <button>неподобається</button>
+        <button>коментувати</button>
     </div>
-    <div class="post-body">
-        {% if post.image %}
-            <img class="post-img" src="{{ post.image.url }}" alt="post img" width="200px">
-        {% else %}
-            <p>{{ post.content|striptags }}</p>
-        {% endif %}
-    </div>
+    {% else %}
+
+        видалений пост
+
+    {% endif %}
 </div>
