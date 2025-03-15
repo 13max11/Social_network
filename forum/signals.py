@@ -15,7 +15,7 @@ def check_banned_words(sender, instance, **kwargs):
             Comment.objects.create(
                 user = instance.community.created_by,
                 post = instance,
-                content = f'(сповішення згенероване автоматично) {message.first().message}',
+                content = f'{message.first().message} (сповішення згенероване автоматично)',
             )
 
         #Удаляет объект, если в поле content есть запрещённое слово из базы.

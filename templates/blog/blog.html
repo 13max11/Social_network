@@ -5,10 +5,28 @@
 
 {% block content %}
 
-    {% for entry in entries %}
+    {% for post in entries %}
 
-        <h1>{{ entry.title }}</h1>
-        <h2>{{ entry.content }}</h2>
+        <div class="post" id="{{post.id}}">
+                <div class="post-head">
+                    <p>{{ post.created_at|date:"d/m/Y H:i" }}</p>
+                </div>
+
+                <div class="post-title">
+                    <h1>{{ post.title }}</h1>
+                </div>
+                <div class="post-body">
+                    <p class="truncated-text">{{ post.content|striptags }}</p>
+                    {% if post.img %}
+                        <img class="post-img" src="{{ post.img.url }}" alt="post img">
+                    {% endif %}    
+                </div>
+            <div class="post-bottom">
+                <div style="display: flex;">
+                    <a href="{% url 'entry-like' post.pk %}"><button style="border-radius: 30px;font-size: 16px;"><img src="/static/images/heart.png" alt="heart" width="15" height="15" style="margin-bottom: -2px;">  {{ post.like_count }}</button></a>
+                </div>
+            </div>
+    </div>
 
     {% empty %}
 

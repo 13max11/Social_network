@@ -5,41 +5,46 @@
 
 {% block content %}
     {% if not post.deleted %}
-        <div class="post">
+        <div class="post-details">
             <div class="post-head">
-                <h1>{{post.title}}</h1>
+                <button onclick="history.back()" class="back-button">🠔</button>
+                <a href="{% url 'profile' post.created_by.username %}"><img src="{{post.created_by.avatar.url}}" alt="avatar" width="30px" height="30px" class="square-img"></a>
                 <p>{{post.created_by}}</p>
-                <p>{{post.created_at}}</p>
+                <p>●</p>
+                <p>{{ post.created_at|timesince }}</p>
             </div>
             <div class="post-body">
+                <h1>{{post.title}}</h1>
                 <p>{{post.content|safe}}</p>
                 {% if post.image %}
-                    <img src="{{post.image.url}}" alt="post img" width="200px">
+                    <img src="{{post.image.url}}" alt="post img" class="post-img">
                 {% endif %}
             </div>
-        </div>
-        
-        <form action="{% url 'post' post.community.slug post.pk %}" method="post">
-            <button type="submit" name="like">
-                {% csrf_token %}
-                {{reputation}}
-                подобаться
-            </button>
-        </form>
+        <div style="display: flex; justify-content: space-between; margin-top: 5px; margin-bottom: 10px;">
+            <div style="display: flex;">
+                <form action="{% url 'post' post.community.slug post.pk %}" method="post">
+                    <button type="submit" name="like" style="border-top-right-radius: 0; border-bottom-right-radius: 0; font-size: 16px;">
+                        {% csrf_token %}
+                        🡅
+                        {{reputation}}
+                    </button>
+                </form>
 
-        <form action="{% url 'post' post.community.slug post.pk %}" method="post">
-            <button type="submit" name="dislike">
-                {% csrf_token %}
-                неподобається
-            </button>
-        </form>
-        
+                <form action="{% url 'post' post.community.slug post.pk %}" method="post">
+                    <button type="submit" name="dislike" style="border-top-left-radius: 0; border-bottom-left-radius: 0; font-size: 16px;">
+                        {% csrf_token %}
+                        🡇
+                    </button>
+                </form>
+            </div>
+            <a href="{% url 'post' post.community.slug post.pk %}#comment-form"><button style="font-size: 16px;"><img src="/static/images/speech-bubble.png" alt="speech" width="15px" height="15px" style="margin-bottom: -2px;"> {{ post.comment_count }}</button></a>
+        </div>
+
         <div class="comments">
             {% if user.is_authenticated %}
-                <form action="{% url 'post' post.community.slug post.pk %}" method="post" class="comment-form">
+                <form action="{% url 'post' post.community.slug post.pk %}" method="post" class="comment-form" id="comment-form">
                     {% csrf_token %}
-                    <input type="text" name="content" placeholder="Ваш коментар..." required>
-                    <button type="submit" name="comment">Додати коментар</button>
+                    <input type="text" name="comment" placeholder="Ваш коментар..." required class="comment-input">                
                 </form>
             {% else %}
                 <p>Будь ласка, <a href="{% url 'login' %}">увійдіть</a>, щоб залишити коментар.</p>
@@ -61,5 +66,7 @@
         <h1>це видалений пост</h1>
 
     {% endif %}
+
+    </div>
 
 {% endblock %}

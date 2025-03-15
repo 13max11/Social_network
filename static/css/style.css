@@ -224,7 +224,10 @@ ul {
 }
 
 .post-img {
+    border-style: solid;
     border-radius: 10px;
+    border-width: 2px;
+    border-color: #21242f;
     width: 100%;
     height: 100%;
 }
@@ -245,7 +248,38 @@ ul {
 
 .post-bottom {
     display: flex;
+    justify-content:space-between;
 }
+
+.post-details {
+    width: 80%;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.back-button {
+    border-radius: 90px;
+    width: 30px;
+    height: 30px;
+}
+
+.comment-input {
+    width: 100%;
+    height: 30px;
+    background-color: #101217;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 10px;
+    border-color: #21242f;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.comment-input:focus {
+    border-color: #3700b3;
+}
+
 
 .content {
     width: 100%;
@@ -315,24 +349,49 @@ ul {
 
 .explore-communities-container {
     display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
 }
 
 .explore-community-container {
     display: flex;
     margin-left: 5%;
-    width: 20%;
-    height: 50px;
+    width: 25%;
+    padding: 5px;
+    flex-direction: column;
+    align-items: left;
+    text-align: left;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: #21242f;
+    position: relative;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.explore-community-container:hover {
+    background-color: #343434;
 }
 
 .explore-community-container h2 {
+    max-width: 100%;  /* Обмежує ширину заголовка */
+    overflow: hidden; 
+    text-overflow: ellipsis; /* Додає "..." для обрізаного тексту */
+    white-space: nowrap; /* Запобігає переносу слів */
+    word-break: break-word; /* Обрізає слова на половині */
+}
+
+.explore-description {
     display: -webkit-box;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 1; /* Обрезать после 3 строк */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 100px; /* Настройте под ваш макет */
+    max-height: 4.5em; /* Высота = 3 строки (зависит от line-height) */
+    line-height: 1.5em;
+    word-break: break-word;
 }
-
 
 /* Загальний стиль скролбара */
 ::-webkit-scrollbar {
@@ -384,6 +443,16 @@ select[name="sort_by"] {
     outline: none;
     cursor: pointer;
     transition: all 0.3s;
+}
+
+.truncated-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Обрезать после 3 строк */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5em; /* Высота = 3 строки (зависит от line-height) */
+    line-height: 1.5em;
 }
 
 select[name="sort_by"]:hover {

@@ -16,14 +16,17 @@
             {% if post.image %}
                 <img class="post-img" src="{{ post.image.url }}" alt="post img" width="200px">
             {% else %}
-                <p>{{ post.content|striptags }}</p>
+                <p class="truncated-text">{{ post.content|striptags }}</p>
             {% endif %}
         </div>
     </a>
     <div class="post-bottom">
-        <button>подобається</button>
-        <button>неподобається</button>
-        <button>коментувати</button>
+        <div style="display: flex;">
+            <button style="border-top-right-radius: 0; border-bottom-right-radius: 0; font-size: 16px;">🡅  {{ post.rating_count }}</button>
+            <button style="border-top-left-radius: 0; border-bottom-left-radius: 0; font-size: 16px;">🡇</button>
+        </div>
+        
+        <a href="{% url 'post' post.community.slug post.pk %}#comment-form"><button style="font-size: 16px;"><img src="/static/images/speech-bubble.png" alt="speech" width="15px" height="15px" style="margin-bottom: -2px;"> {{ post.comment_count }}</button></a>
     </div>
     {% else %}
 

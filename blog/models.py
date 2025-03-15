@@ -7,8 +7,14 @@ class Entry(models.Model):
     content = models.TextField()
     img = models.ImageField(upload_to='images/blog/', blank=True, null=True)
 
+    created_at = models.DateTimeField(auto_now=True)
+    
+
     def __str__(self) -> str:
         return self.title
+
+    def like_count(self):
+        return self.likes.count()
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='blog_comments')

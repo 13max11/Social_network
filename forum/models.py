@@ -78,6 +78,19 @@ class Post(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def like_count(self):
+        return self.likes.count()
+
+    def dislike_count(self):
+        return self.dislikes.count()
+    
+    def rating_count(self):
+        return self.likes.count() - self.dislikes.count()
+
+    def comment_count(self):
+        return self.comments.count()
+
+
     class Meta:
         ordering = ['-created_at']
 

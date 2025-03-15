@@ -85,7 +85,7 @@ def post_details_view(request, slug, pk):
 
     if request.method == 'POST' and request.user.is_authenticated:
         if "comment" in request.POST:
-            content = request.POST.get("content", "").strip()
+            content = request.POST.get("comment", "").strip()
             if content:
                 Comment.objects.create(
                     post=post,

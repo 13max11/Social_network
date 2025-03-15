@@ -4,24 +4,50 @@
 
 
 {% block content %}
+    <div style="text-align: center;">
+        <h1>Випадкові</h1>
+        <div class="explore-communities-container">
+            {% for community in random_communities %}
+                <div class="explore-community-container">
+                    <a href="{%url 'community' community.slug %}"><div style="display: flex;">
+                        <img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img">
+                        <h2>{{community.name}}</h2>
+                    </div></a>
+                    <a href="{%url 'community' community.slug %}"><p class="explore-description">{{community.description}}</p></a>
+                </div>
+            {% endfor %}
+            <a href="#"><h5 style="border-radius: 30px; background-color:rgb(0, 0, 55); padding: 10px; margin: 5px;">Дивитись більше</h5></a>
+        </div>
 
-    <h1>Випадкові</h1>
-    <div class="explore-communities-container">
-        {% for community in random_communities %}
-            <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
+        <h1>За активністю</h1>
+
+        <div class="explore-communities-container">
+        {% for community in communities_by_posts %}
+            <div class="explore-community-container">
+                <a href="{%url 'community' community.slug %}"><div style="display: flex;">
+                    <img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img">
+                    <h2>{{community.name}}</h2>
+                </div></a>
+                <a href="{%url 'community' community.slug %}"><p class="explore-description">{{community.description}}</p></a>
+            </div>
         {% endfor %}
+        <a href="#"><h5 style="border-radius: 30px; background-color:rgb(0, 0, 55); padding: 10px; margin: 5px;">Дивитись більше</h5></a>
+        </div>
+
+        <h1>За учасниками</h1>
+
+        <div class="explore-communities-container">    
+        {% for community in communities_by_followers %}
+            <div class="explore-community-container">
+                <a href="{%url 'community' community.slug %}"><div style="display: flex;">
+                    <img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img">
+                    <h2>{{community.name}}</h2>
+                </div></a>
+                <a href="{%url 'community' community.slug %}"><p class="explore-description">{{community.description}}</p></a>
+            </div>
+        {% endfor %}
+        <a href="#"><h5 style="border-radius: 30px; background-color:rgb(0, 0, 55); padding: 10px; margin: 5px;">Дивитись більше</h5></a>
+        </div>
     </div>
-
-    <h1>За активністю</h1>
-
-    {% for community in communities_by_posts %}
-        <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
-    {% endfor %}
-
-    <h1>За учасниками</h1>
-
-    {% for community in communities_by_followers %}
-        <a href="{%url 'community' community.slug %}"><div class="explore-community-container"><img src="{{community.icon.url}}" alt="community-icon" width="30px" height="30px" class="square-img"><h2>{{community.name}}</h2></div></a>
-    {% endfor %}
 
 {% endblock %}
